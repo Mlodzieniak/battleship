@@ -28,8 +28,8 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        exclude: ['node_modules'],
-        use: ['babel-loader'],
+        exclude: ["node_modules"],
+        use: ["babel-loader"],
       },
       {
         test: /\.css$/,
@@ -51,15 +51,15 @@ module.exports = {
   ],
   resolve: {
     alias: {
-      config$: './configs/app-config.js',
-      react: './vendor/react-master',
+      config$: "./configs/app-config.js",
+      react: "./vendor/react-master",
     },
-    extensions: ['.js', '.jsx'],
+    extensions: [".js", ".jsx"],
     modules: [
-      'node_modules',
-      'bower_components',
-      'shared',
-      '/shared/vendor/modules',
+      "node_modules",
+      "bower_components",
+      "shared",
+      "/shared/vendor/modules",
     ],
-  },    
+  },
 };
