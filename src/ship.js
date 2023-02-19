@@ -1,4 +1,4 @@
-function ship(newLength) {
+function Ship(newLength) {
   const length = newLength;
   let lives = newLength;
   const methods = {
@@ -14,4 +14,5 @@ function ship(newLength) {
   const obj = Object.create(methods);
   return obj;
 }
-module.exports = ship;
+export default Ship;
+module.exports = Ship;
