@@ -2,6 +2,7 @@ import Ship from "./ship";
 
 function Gameboard() {
   const board = [];
+  const ships = [];
   function cellFactory() {
     return {
       wasHit: false,
@@ -16,6 +17,9 @@ function Gameboard() {
     }
   }
   const methods = {
+    get board() {
+      return board;
+    },
     hasShipAt: (x, y) => board[x][y].hasShip,
     placeShip: (length, cords, isHorizontal) => {
       const x = cords[0];
@@ -37,15 +41,26 @@ function Gameboard() {
           checkedCell.hasShip = true;
         }
       });
+      ships.push(newShip);
     },
-    // receiveAttack:(x,y)=>{
-
-    // }
+    receiveAttack: (x, y) => {
+      const attackedCell = board[x][y];
+      if (attackedCell.hasShip) {
+        attackedCell.wasHit = true;
+        attackedCell.ship.hit();
+        return attackedCell.ship;
+      }
+      attackedCell.wasHit = true;
+      return null;
+    },
+    isGameOver: () => {
+      let areSunk = 0;
+      ships.forEach((checkedShip) => {
+        if (checkedShip.isSunk()) areSunk++;
+      });
+      return areSunk === ships.length;
+    },
   };
-  const obj = Object.create(methods);
-  return obj;
+  return Object.create(methods);
 }
 module.exports = Gameboard;
-/*
-
-*/
