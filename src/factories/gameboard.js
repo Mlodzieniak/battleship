@@ -45,6 +45,7 @@ function Gameboard() {
     },
     receiveAttack: (x, y) => {
       const attackedCell = board[x][y];
+      if (attackedCell.wasHit) return "You cannot hit same cell twice";
       if (attackedCell.hasShip) {
         attackedCell.wasHit = true;
         attackedCell.ship.hit();
