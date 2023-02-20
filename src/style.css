@@ -1,0 +1,52 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* border: 1px solid red; */
+}
+
+:root {
+    --cell-size: 35px;
+}
+
+body {
+    padding: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.main {
+    display: flex;
+    gap: 5rem;
+}
+
+.gameboard {
+    width: calc(var(--cell-size)*10);
+    height: calc(var(--cell-size)*10);
+    display: flex;
+    flex-wrap: wrap-reverse;
+}
+
+.cell {
+    border: 1px solid black;
+    width: var(--cell-size);
+    height: var(--cell-size);
+}
+
+.cell+.mouseover {
+    background-color: grey;
+}
+
+.shot {
+    background-color: lightskyblue;
+}
+
+.hit .shot {
+    background-color: crimson;
+}
+
+.hit .shot .sunk {
+    border: black solid 5px;
+}
