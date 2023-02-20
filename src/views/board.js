@@ -1,3 +1,5 @@
+import Gamebord from "../factories/gameboard";
+
 function createBoard(player) {
   const board = document.createElement("dev");
   board.className = `gameboard ${player}`;

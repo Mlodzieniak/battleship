@@ -27,4 +27,5 @@ function Player(isPlayerAComputer) {
   };
   return Object.create(methods);
 }
-module.exports = Player;
+// module.exports = Player;
+export default Player;

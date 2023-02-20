@@ -39,14 +39,18 @@ body {
     background-color: grey;
 }
 
+.ship {
+    background-color: chartreuse;
+}
+
 .shot {
     background-color: lightskyblue;
 }
 
-.hit .shot {
+.hit+.shot {
     background-color: crimson;
 }
 
-.hit .shot .sunk {
+.hit+.shot+.sunk {
     border: black solid 5px;
 }

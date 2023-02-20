@@ -15,4 +15,4 @@ function Ship(newLength) {
   return obj;
 }
 export default Ship;
-module.exports = Ship;
+// module.exports = Ship;

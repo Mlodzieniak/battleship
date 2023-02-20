@@ -64,4 +64,5 @@ function Gameboard() {
   };
   return Object.create(methods);
 }
-module.exports = Gameboard;
+// module.exports = Gameboard;
+export default Gameboard;
