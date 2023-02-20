@@ -27,11 +27,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        exclude: ["node_modules"],
-        use: ["babel-loader"],
-      },
-      {
         test: /\.css$/,
         use: ["style-loader", "css-loader"],
       },
@@ -43,16 +38,15 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "",
+      title: "Battleship",
       filename: "index.html",
       template: "src/template.html",
     }),
-    new FaviconsWebpackPlugin(),
+    new FaviconsWebpackPlugin("./src/assets/ship.svg"),
   ],
   resolve: {
     alias: {
       config$: "./configs/app-config.js",
-      react: "./vendor/react-master",
     },
     extensions: [".js", ".jsx"],
     modules: [
