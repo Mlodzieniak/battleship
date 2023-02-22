@@ -4,9 +4,11 @@ import Player from "./factories/player";
 import Gameboard from "./factories/gameboard";
 import renderBoats from "./views/utils/renderBoats";
 import gameLoop from "./views/utils/gameLoop";
+import entry from "./views/entry";
 
 function play() {
   createMain();
+  entry().showModal();
   const computer = Player(true);
   const computerBoard = Gameboard();
   const computerDOM = document.querySelector(".computer");

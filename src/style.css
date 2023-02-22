@@ -18,13 +18,55 @@ body {
     align-items: center;
 }
 
+button {
+    border: none;
+    padding: 1rem;
+    font-weight: 700;
+    font-size: 1.5rem;
+    width: 100%;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: cadetblue;
+}
+
+
 .main {
     display: flex;
     gap: 5rem;
 }
 
-.winner {
+.winner,
+.entry {
     padding: 2rem;
+    margin: auto;
+    font-size: 3rem;
+}
+
+.dock-wrapper {
+    display: flex;
+    gap: 2rem;
+}
+
+.dock {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.rotated {
+    display: flex;
+}
+
+.draggable {
+    flex: 0 0 auto;
+    cursor: grab;
+}
+
+.dragged-over {
+    background-color: cornflowerblue;
 }
 
 .gameboard {
