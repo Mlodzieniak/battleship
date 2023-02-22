@@ -6,10 +6,11 @@
 }
 
 :root {
-    --cell-size: 35px;
+    --cell-size: 3vw;
 }
 
 body {
+    background-color: rgb(229, 231, 235);
     padding: 5rem;
     display: flex;
     flex-direction: column;
@@ -22,21 +23,37 @@ body {
     gap: 5rem;
 }
 
+.winner {
+    padding: 2rem;
+}
+
 .gameboard {
     width: calc(var(--cell-size)*10);
     height: calc(var(--cell-size)*10);
     display: flex;
     flex-wrap: wrap-reverse;
+    border-collapse: collapse;
+    border: 0.5px solid black;
+    box-sizing: content-box;
+
 }
 
 .cell {
-    border: 1px solid black;
+    border: 0.5px solid black;
     width: var(--cell-size);
     height: var(--cell-size);
+    font-size: calc(var(--cell-size)*0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* text-align: center; */
+    /* align-items: center; */
 }
 
+
 .cell+.mouseover {
-    background-color: grey;
+    /* background-color: rgb(175, 175, 175); */
+    border: 1px solid black;
 }
 
 .ship {

@@ -1,7 +1,7 @@
 import Gamebord from "../factories/gameboard";
 
 function createBoard(player) {
-  const board = document.createElement("dev");
+  const board = document.createElement("div");
   board.className = `gameboard ${player}`;
 
   for (let i = 0; i < 100; i++) {
@@ -19,6 +19,9 @@ function createBoard(player) {
     cell.onmouseout = () => {
       cell.classList.remove("mouseover");
     };
+    if (player === "computer") {
+      cell.onclick = () => {};
+    }
   }
 
   return board;

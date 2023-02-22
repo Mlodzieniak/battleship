@@ -3,13 +3,16 @@ function Player(isPlayerAComputer) {
     throw new Error("Invalid argument type. Expected boolean.");
   }
   const isComputer = isPlayerAComputer;
+  // const hitCords = [];
   const methods = {
     get isComputer() {
       return isComputer;
     },
+    name: () => (isComputer ? "Computer" : "Player"),
     move: (board, cords) => {
       const x = cords[0];
       const y = cords[1];
+      // hitCords.push([x, y]);
       return board.receiveAttack(x, y);
     },
     randomMove: (board) => {
@@ -21,11 +24,11 @@ function Player(isPlayerAComputer) {
         if (checkedCell.wasHit) {
           continue;
         }
-        return methods.move(board, [x, y]);
+        return [`${x}${y}`, methods.move(board, [x, y])];
       }
     },
   };
   return Object.create(methods);
 }
-// module.exports = Player;
 export default Player;
+// module.exports = Player;

@@ -26,9 +26,7 @@ describe("players make moves", () => {
     expect(player.move(gameboard, [1, 1])).toBe(null);
   });
   test("computer makes same move twice", () => {
-    expect(player.move(gameboard, [1, 1])).toBe(
-      "You cannot hit same cell twice"
-    );
+    expect(player.move(gameboard, [1, 1])).toBe("Try another cell.");
   });
   test("computer hits target", () => {
     expect(player.move(gameboard, [2, 2])).toMatchObject(ship);

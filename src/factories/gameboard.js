@@ -8,6 +8,7 @@ function Gameboard() {
       wasHit: false,
       hasShip: false,
       ship: null,
+      symbol: "&#8226;", // bullet point if cells has no ship
     };
   }
   for (let i = 0; i < 10; i++) {
@@ -39,20 +40,21 @@ function Gameboard() {
         if (!checkedCell.hasShip) {
           checkedCell.ship = newShip;
           checkedCell.hasShip = true;
+          checkedCell.symbol = "&#10005;";
         }
       });
       ships.push(newShip);
     },
     receiveAttack: (x, y) => {
       const attackedCell = board[x][y];
-      if (attackedCell.wasHit) return "You cannot hit same cell twice";
+      if (attackedCell.wasHit) return "Try another cell.";
       if (attackedCell.hasShip) {
         attackedCell.wasHit = true;
         attackedCell.ship.hit();
-        return attackedCell.ship;
+        return attackedCell;
       }
       attackedCell.wasHit = true;
-      return null;
+      return attackedCell;
     },
     isGameOver: () => {
       let areSunk = 0;
@@ -64,5 +66,5 @@ function Gameboard() {
   };
   return Object.create(methods);
 }
-// module.exports = Gameboard;
 export default Gameboard;
+// module.exports = Gameboard;
