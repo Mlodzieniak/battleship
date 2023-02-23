@@ -46,80 +46,110 @@ function entry() {
     },
   ];
 
-  shipsInDock.forEach((type) => {
-    for (let i = 0; i < type.count; i++) {
-      const ship = document.createElement("div");
-      for (let j = 0; j < type.size; j++) {
-        const node = document.createElement("div");
-        node.className = "cell ship";
-        ship.appendChild(node);
-      }
-      //   ship.setAttribute("data-rotation", "vertical");
-      ship.setAttribute("draggable", "true");
-      ship.classList.add("draggable");
-
-      ship.ondblclick = () => {
-        ship.classList.toggle("rotated");
-        // ship.removeAttribute("data-rotation");
-      };
-
-      ship.addEventListener("dragstart", () => {
-        ship.classList.add("hold");
-        setTimeout(() => ship.classList.add("invisible"), 0);
-      });
-
-      ship.addEventListener("dragend", () => {
-        ship.classList.remove("hold");
-        ship.classList.remove("invisible");
-      });
-      dock.appendChild(ship);
+  //   shipsInDock.forEach((type) => {
+  //     for (let i = 0; i < type.count; i++) {
+  //       const ship = document.createElement("div");
+  //       for (let j = 0; j < type.size; j++) {
+  //         const node = document.createElement("div");
+  //         node.className = "cell ship";
+  //         ship.appendChild(node);
+  //       }
+  //       ship.setAttribute("draggable", "true");
+  //       ship.classList.add("draggable");
+  //       ship.ondblclick = () => {
+  //         ship.classList.toggle("rotated");
+  //       };
+  //       dock.appendChild(ship);
+  //     }
+  //   });
+  function dropShip(shipsArr) {
+    const ship = document.createElement("div");
+    for (let i = 0; i < shipsArr[0].size; i++) {
+      const node = document.createElement("div");
+      node.className = "cell ship";
+      ship.appendChild(node);
     }
-  });
-  function isIntersected(element1, element2) {
-    const rect1 = element1.getBoundingClientRect();
-    const rect2 = element2.getBoundingClientRect();
-    return !(
-      rect1.bottom < rect2.top ||
-      rect1.top > rect2.bottom ||
-      rect1.right < rect2.left ||
-      rect1.left > rect2.right
-    );
+    ship.ondblclick = () => {
+      ship.classList.toggle("horizontal");
+    };
+    dock.appendChild(ship);
+    cells.forEach((cell) => {
+      cell.onclick = () => {
+        let maxX = 9;
+        let maxY = 9;
+        if (!ship.classList.contains("horizontal")) {
+          maxX -= shipsArr[0].size;
+        } else {
+          maxY -= shipsArr[0].size;
+        }
+        if (cell.dataset.xy[0] <= maxX + 1 && cell.dataset.xy[1] <= maxY + 1) {
+          const cordsToCheck = [];
+          for (let i = 0; i < shipsArr[0].size; i++) {
+            if (ship.classList.contains("horizontal")) {
+              cordsToCheck.push(parseInt(cell.dataset.xy, 10) + i);
+            } else {
+              cordsToCheck.push(parseInt(cell.dataset.xy, 10) + 10 * i);
+            }
+          }
+          const mappedCords = cordsToCheck.map((cord) => {
+            const string = cord.toString();
+            if (string.length === 1) {
+              return `0${string}`;
+            }
+            return string;
+          });
+          if (
+            mappedCords.every((cord) => {
+              const node = board.querySelector(`[data-xy="${cord}"]`);
+              return !node.classList.contains("ship");
+            })
+          ) {
+            mappedCords.forEach((cord) => {
+              const node = board.querySelector(`[data-xy="${cord}"]`);
+              node.classList.add("ship");
+            });
+            // console.log(shipsArr.splice(1, shipsArr.length - 1));
+            dock.removeChild(ship);
+            dropShip(shipsArr.splice(1, shipsArr.length - 1));
+          }
+        }
+      };
+    });
   }
-  board.addEventListener("dragenter", (event) => {
-    cells.forEach((cell) => {
-      if (isIntersected(cell, event.target)) {
-        cell.classList.add("dragged-over");
-      }
+  dropShip(shipsInDock);
+
+  /*
+dropship(shipsindock){
+dock renders single ship from array.
+this ship is stored in var ship to place.
+click board tryes to place it{
+    max cords = take length of ship and subtract it from {
+        if ship isHorizontal > width-length
+        else > height - length
+    }
+    if clicked cell cords exceeds max cords then no effect
+    else {
+        check if clicked cell+ another cells along the way have class ship
+        if they dont, fire placeShip function
+    }
+}
+}
+
+*/
+
+  cells.forEach((cell) => {
+    cell.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      cell.classList.add("dragged-over");
     });
-  });
-  board.addEventListener("dragover", (event) => {
-    cells.forEach((cell) => {
-      if (isIntersected(cell, event.target)) {
-        cell.classList.add("dragged-over");
-      } else {
-        cell.classList.remove("dragged-over");
-      }
-    });
-  });
-  board.addEventListener("dragleave", () => {
-    cells.forEach((cell) => {
+    cell.addEventListener("dragleave", () => {
       cell.classList.remove("dragged-over");
     });
+    cell.addEventListener("drop", () => {
+      cell.classList.remove("dragged-over");
+      cell.classList.add("ship");
+    });
   });
-
-  //   cells.forEach((cell) => {
-  //     cell.addEventListener("dragover", (event) => {
-  //       event.preventDefault();
-  //       cell.classList.add("dragged-over");
-  //     });
-  //     cell.addEventListener("dragleave", () => {
-  //       cell.classList.remove("dragged-over");
-  //     });
-  //     cell.addEventListener("drop", () => {
-  //       cell.classList.remove("dragged-over");
-  //       cell.classList.add("ship");
-  //     });
-  //   });
 
   box.append(dock, board);
   entryScreen.append(text, box, startBTN);

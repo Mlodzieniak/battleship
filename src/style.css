@@ -58,7 +58,7 @@ button:hover {
     width: 300px;
 }
 
-.rotated {
+.horizontal {
     display: flex;
 }
 
