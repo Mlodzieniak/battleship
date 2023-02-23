@@ -44,6 +44,7 @@ button:hover {
     font-size: 3rem;
 }
 
+
 .dock-wrapper {
     display: flex;
     gap: 2rem;
@@ -54,6 +55,7 @@ button:hover {
     gap: 0.5rem;
     justify-content: center;
     align-items: center;
+    width: 300px;
 }
 
 .rotated {
@@ -65,8 +67,18 @@ button:hover {
     cursor: grab;
 }
 
+.hold {
+    /* border: 1px solid black; */
+    opacity: 0.7;
+}
+
+
 .dragged-over {
     background-color: cornflowerblue;
+}
+
+.invisible {
+    display: none;
 }
 
 .gameboard {
