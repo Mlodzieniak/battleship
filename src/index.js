@@ -5,8 +5,11 @@ import Gameboard from "./factories/gameboard";
 import renderBoats from "./views/utils/renderBoats";
 import gameLoop from "./views/utils/gameLoop";
 import entry from "./views/entry";
+import placeRandom from "./views/utils/placeRandom";
 
 function play() {
+  createMain();
+
   const computer = Player(true);
   const computerBoard = Gameboard();
   const computerDOM = document.querySelector(".computer");
@@ -14,13 +17,13 @@ function play() {
   const player = Player(false);
   const playerBoard = Gameboard();
   const playerDOM = document.querySelector(".player");
-  createMain();
+  placeRandom(computerBoard);
+
   entry(playerBoard).showModal();
   //   playerBoard.placeShip(2, [3, 1], false);
   //   playerBoard.placeShip(1, [9, 9], true);
   //   playerBoard.placeShip(5, [3, 6], true);
   //   playerBoard.placeShip(3, [7, 1], false);
-  //   renderBoats(playerBoard, playerDOM);
   gameLoop(player, playerBoard, computer, computerBoard);
 }
 // while (true) {

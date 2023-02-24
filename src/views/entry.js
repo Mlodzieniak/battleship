@@ -1,6 +1,6 @@
 import createBoard from "./board";
 import renderBoats from "./utils/renderBoats";
-import shipsData from "./utils/shipsData";
+import shipsData2 from "./utils/shipsData2";
 
 function entry(playerBoard) {
   const main = document.querySelector(".main");
@@ -17,7 +17,6 @@ function entry(playerBoard) {
   const board = createBoard();
   board.classList.add("entry-board");
   const cells = board.querySelectorAll(".cell");
-  //   const shipsData = shipsData;
   const viablePlacedShips = [];
 
   function dropShip(shipsArr) {
@@ -28,7 +27,6 @@ function entry(playerBoard) {
           playerBoard.placeShip(place.length, place.cords, place.horizontal);
         });
         const playerDOM = document.querySelector(".player");
-        console.log(playerDOM);
         renderBoats(playerBoard, playerDOM);
         entryScreen.close();
         main.removeChild(entryScreen);
@@ -90,18 +88,18 @@ function entry(playerBoard) {
               horizontal: ship.classList.contains("horizontal"),
             };
             viablePlacedShips.push(newShipData);
-            shipsArr[0].count -= 1;
-            if (shipsArr[0].count === 0) {
+            shipsArr[0].count = shipsArr[0].count - 1;
+            if (shipsArr[0].count < 1) {
               dropShip(shipsArr.splice(1, shipsArr.length - 1));
             } else {
-              dropShip(shipsArr);
+              dropShip([...shipsArr]);
             }
           }
         }
       };
     });
   }
-  dropShip(shipsData);
+  dropShip([...shipsData2]);
 
   /*
 dropship(shipsData){
@@ -121,20 +119,6 @@ click board tryes to place it{
 }
 
 */
-
-  cells.forEach((cell) => {
-    cell.addEventListener("dragover", (event) => {
-      event.preventDefault();
-      cell.classList.add("dragged-over");
-    });
-    cell.addEventListener("dragleave", () => {
-      cell.classList.remove("dragged-over");
-    });
-    cell.addEventListener("drop", () => {
-      cell.classList.remove("dragged-over");
-      cell.classList.add("ship");
-    });
-  });
 
   box.append(dock, board);
   entryScreen.append(text, box, startBTN);

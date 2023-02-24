@@ -22,8 +22,8 @@ function Gameboard() {
       return board;
     },
     hasShipAt: (x, y) => board[x][y].hasShip,
+    // console.log(x, y);
     placeShip: (length, cords, isHorizontal) => {
-      console.log(length, cords, isHorizontal);
       const x = parseInt(cords[0], 10);
       const y = parseInt(cords[1], 10);
       const cells = [];
@@ -37,8 +37,6 @@ function Gameboard() {
           cells.push(board[x][y + i]);
         }
       }
-      console.log(x, y);
-      console.log(cells);
       cells.forEach((checkedCell) => {
         if (!checkedCell.hasShip) {
           checkedCell.ship = newShip;
