@@ -22,14 +22,9 @@ function placeRandom(gameboard) {
         Math.floor(Math.random() * maxY),
       ];
       const results = [];
-      console.log(results);
-      // console.log(cordsToCheck);
 
       for (let i = 0; i < shipsList[0].size; i++) {
         if (!isHorizontal) {
-          console.log(
-            gameboard.hasShipAt(cordsToCheck[0] + i, cordsToCheck[1])
-          );
           results.push(
             !gameboard.hasShipAt(cordsToCheck[0] + i, cordsToCheck[1])
           );
@@ -53,6 +48,6 @@ function placeRandom(gameboard) {
   }
   singleShip([...shipsData]);
 
-  //   renderBoats(gameboard, computerDOM);
+  // renderBoats(gameboard, computerDOM);
 }
 export default placeRandom;

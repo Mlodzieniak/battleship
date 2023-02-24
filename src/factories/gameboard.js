@@ -22,21 +22,24 @@ function Gameboard() {
       return board;
     },
     hasShipAt: (x, y) => board[x][y].hasShip,
-    // console.log(x, y);
     placeShip: (length, cords, isHorizontal) => {
       const x = parseInt(cords[0], 10);
       const y = parseInt(cords[1], 10);
       const cells = [];
       const newShip = Ship(length);
+      const shipCords = [];
       if (!isHorizontal) {
         for (let i = 0; i < length; i++) {
           cells.push(board[x + i][y]);
+          shipCords.push([x + i, y]);
         }
       } else {
         for (let i = 0; i < length; i++) {
           cells.push(board[x][y + i]);
+          shipCords.push([x, y + i]);
         }
       }
+      newShip.setCords(shipCords);
       cells.forEach((checkedCell) => {
         if (!checkedCell.hasShip) {
           checkedCell.ship = newShip;
@@ -57,10 +60,27 @@ function Gameboard() {
       attackedCell.wasHit = true;
       return attackedCell;
     },
-    isGameOver: () => {
+    isGameOver: (boardCells) => {
       let areSunk = 0;
       ships.forEach((checkedShip) => {
-        if (checkedShip.isSunk()) areSunk++;
+        if (checkedShip.isSunk()) {
+          boardCells.forEach((cell) => {
+            const cellID = [
+              parseInt(cell.dataset.xy[0], 10),
+              parseInt(cell.dataset.xy[1], 10),
+            ];
+            checkedShip.cords.forEach((cord) => {
+              if (
+                cord.some(
+                  (cords) => cords[0] === cellID[0] && cords[1] === cellID[1]
+                )
+              ) {
+                cell.classList.add("shot");
+              }
+            });
+          });
+          areSunk++;
+        }
       });
       return areSunk === ships.length;
     },

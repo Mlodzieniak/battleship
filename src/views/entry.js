@@ -13,7 +13,7 @@ function entry(playerBoard) {
   const text = document.createElement("div");
   const startBTN = document.createElement("button");
   startBTN.textContent = "Start game";
-  text.innerHTML = "Place your ships.";
+  text.innerHTML = "Place your ships";
   const board = createBoard();
   board.classList.add("entry-board");
   const cells = board.querySelectorAll(".cell");
