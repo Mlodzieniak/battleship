@@ -1,11 +1,10 @@
 import createBoard from "./board";
-import Gameboard from "../factories/gameboard";
 import renderBoats from "./utils/renderBoats";
+import shipsData from "./utils/shipsData";
 
 function entry(playerBoard) {
   const main = document.querySelector(".main");
   const entryScreen = document.createElement("dialog");
-  //   const entryForm = document.createElement("form");
   const box = document.createElement("div");
   box.classList.add("dock-wrapper");
   entryScreen.classList.add("entry");
@@ -18,39 +17,12 @@ function entry(playerBoard) {
   const board = createBoard();
   board.classList.add("entry-board");
   const cells = board.querySelectorAll(".cell");
-  const shipsInDock = [
-    {
-      name: "Carrier",
-      size: 5,
-      count: 1,
-    },
-    {
-      name: "Battleship",
-      size: 4,
-      count: 1,
-    },
-    {
-      name: "Cruiser",
-      size: 3,
-      count: 1,
-    },
-    {
-      name: "Destroyer",
-      size: 2,
-      count: 2,
-    },
-    {
-      name: "Submarine",
-      size: 1,
-      count: 2,
-    },
-  ];
+  //   const shipsData = shipsData;
   const viablePlacedShips = [];
 
   function dropShip(shipsArr) {
     if (shipsArr.length === 0) {
       startBTN.classList.add("viable");
-      //   startBTN.setAttribute("method", "modal");
       startBTN.onclick = () => {
         viablePlacedShips.forEach((place) => {
           playerBoard.placeShip(place.length, place.cords, place.horizontal);
@@ -110,7 +82,6 @@ function entry(playerBoard) {
               const node = board.querySelector(`[data-xy="${cord}"]`);
               node.classList.add("ship");
             });
-            // console.log(shipsArr.splice(1, shipsArr.length - 1));
             dock.removeChild(ship);
             dock.removeChild(rotateBTN);
             const newShipData = {
@@ -130,10 +101,10 @@ function entry(playerBoard) {
       };
     });
   }
-  dropShip(shipsInDock);
+  dropShip(shipsData);
 
   /*
-dropship(shipsindock){
+dropship(shipsData){
 dock renders single ship from array.
 this ship is stored in var ship to place.
 click board tryes to place it{
@@ -167,7 +138,6 @@ click board tryes to place it{
 
   box.append(dock, board);
   entryScreen.append(text, box, startBTN);
-  //   entryScreen.append(entryForm);
   main.append(entryScreen);
 
   return entryScreen;
