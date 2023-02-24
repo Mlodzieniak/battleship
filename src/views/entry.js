@@ -1,10 +1,11 @@
 import createBoard from "./board";
 import Gameboard from "../factories/gameboard";
+import renderBoats from "./utils/renderBoats";
 
-function entry() {
+function entry(playerBoard) {
   const main = document.querySelector(".main");
-
   const entryScreen = document.createElement("dialog");
+  //   const entryForm = document.createElement("form");
   const box = document.createElement("div");
   box.classList.add("dock-wrapper");
   entryScreen.classList.add("entry");
@@ -17,7 +18,6 @@ function entry() {
   const board = createBoard();
   board.classList.add("entry-board");
   const cells = board.querySelectorAll(".cell");
-
   const shipsInDock = [
     {
       name: "Carrier",
@@ -45,34 +45,36 @@ function entry() {
       count: 2,
     },
   ];
+  const viablePlacedShips = [];
 
-  //   shipsInDock.forEach((type) => {
-  //     for (let i = 0; i < type.count; i++) {
-  //       const ship = document.createElement("div");
-  //       for (let j = 0; j < type.size; j++) {
-  //         const node = document.createElement("div");
-  //         node.className = "cell ship";
-  //         ship.appendChild(node);
-  //       }
-  //       ship.setAttribute("draggable", "true");
-  //       ship.classList.add("draggable");
-  //       ship.ondblclick = () => {
-  //         ship.classList.toggle("rotated");
-  //       };
-  //       dock.appendChild(ship);
-  //     }
-  //   });
   function dropShip(shipsArr) {
+    if (shipsArr.length === 0) {
+      startBTN.classList.add("viable");
+      //   startBTN.setAttribute("method", "modal");
+      startBTN.onclick = () => {
+        viablePlacedShips.forEach((place) => {
+          playerBoard.placeShip(place.length, place.cords, place.horizontal);
+        });
+        const playerDOM = document.querySelector(".player");
+        console.log(playerDOM);
+        renderBoats(playerBoard, playerDOM);
+        entryScreen.close();
+        main.removeChild(entryScreen);
+      };
+      return;
+    }
     const ship = document.createElement("div");
     for (let i = 0; i < shipsArr[0].size; i++) {
       const node = document.createElement("div");
       node.className = "cell ship";
       ship.appendChild(node);
     }
-    ship.ondblclick = () => {
+    const rotateBTN = document.createElement("button");
+    rotateBTN.textContent = "Rotate";
+    rotateBTN.onclick = () => {
       ship.classList.toggle("horizontal");
     };
-    dock.appendChild(ship);
+    dock.append(ship, rotateBTN);
     cells.forEach((cell) => {
       cell.onclick = () => {
         let maxX = 9;
@@ -110,7 +112,19 @@ function entry() {
             });
             // console.log(shipsArr.splice(1, shipsArr.length - 1));
             dock.removeChild(ship);
-            dropShip(shipsArr.splice(1, shipsArr.length - 1));
+            dock.removeChild(rotateBTN);
+            const newShipData = {
+              length: shipsArr[0].size,
+              cords: [cell.dataset.xy[0], cell.dataset.xy[1]],
+              horizontal: ship.classList.contains("horizontal"),
+            };
+            viablePlacedShips.push(newShipData);
+            shipsArr[0].count -= 1;
+            if (shipsArr[0].count === 0) {
+              dropShip(shipsArr.splice(1, shipsArr.length - 1));
+            } else {
+              dropShip(shipsArr);
+            }
           }
         }
       };
@@ -153,6 +167,7 @@ click board tryes to place it{
 
   box.append(dock, board);
   entryScreen.append(text, box, startBTN);
+  //   entryScreen.append(entryForm);
   main.append(entryScreen);
 
   return entryScreen;
